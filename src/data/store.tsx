@@ -46,7 +46,9 @@ function useStoreValue() {
   const [cgReqs, setCgReqs] = usePersist('cgReqs', hr.cgRequirements)
   const [timeOff, setTimeOff] = usePersist('timeOff', hr.timeOff)
   const [audit, setAudit] = usePersist('audit', seed.audit)
-  const [inbox, setInbox] = usePersist('inbox', seed.inbox)
+  const [mariaInbox, setMariaInbox] = usePersist('inbox', seed.inbox)
+  const [newInbox, setNewInbox] = usePersist('inboxNew', seed.newcomerInbox)
+  const [invite, setInvite] = usePersist<'sent' | 'used'>('invite', 'sent')
   const [branch, setBranch] = usePersist<string>('branch', 'all')
   const [toasts, setToasts] = useState<Toast[]>([])
 
@@ -58,14 +60,14 @@ function useStoreValue() {
 
   /** Keep a record of a change (shown in each record's history). */
   const log = useCallback((e: Omit<AuditEntry, 'id' | 'at' | 'actor'>) => {
-    setAudit(a => [{ id: 'au' + Date.now() + Math.random(), at: stampNow(), actor: seed.ME.name, ...e }, ...a])
-  }, [setAudit])
+    setAudit(a => [{ id: 'au' + Date.now() + Math.random(), at: stampNow(), actor: me.name, ...e }, ...a])
+  }, [setAudit, me.name])
 
   /** Add a line to a caregiver's history. */
   const cgNote = useCallback((gid: string, text: string) => {
-    const n: Note = { by: seed.ME.name, at: stampNow(), text }
+    const n: Note = { by: me.name, at: stampNow(), text }
     setCaregivers(cs => cs.map(c => c.id === gid ? { ...c, history: [...c.history, n] } : c))
-  }, [setCaregivers])
+  }, [setCaregivers, me.name])
 
   const branchName = (id: string) => id === 'all' ? 'All branches' : (seed.branches.find(b => b.id === id)?.name ?? id)
   /** A caregiver only ever sees their own branch. */
@@ -73,11 +75,15 @@ function useStoreValue() {
   const client = (id: string) => clients.find(c => c.id === id)
   const caregiver = (id: string | null | undefined) => caregivers.find(g => g.id === id)
 
-  const signIn = () => { setSignedIn(true); ss.set('corliva.cg.auth', '1') }
+  const isNew = me.caregiverId === seed.NEWCOMER.caregiverId
+  const inbox = isNew ? newInbox : mariaInbox
+  const setInbox = isNew ? setNewInbox : setMariaInbox
+  /** Demo: sign in as Maria (working caregiver) or Amina (new caregiver). */
+  const signIn = (who: 'maria' | 'new' = 'maria') => { setMe(who === 'new' ? seed.NEWCOMER : seed.ME); setSignedIn(true); ss.set('corliva.cg.auth', '1') }
   const signOut = () => { setSignedIn(false); ss.del('corliva.cg.auth') }
 
   return {
-    signedIn, signIn, signOut, me, setMe, agency, users, lists, branch, setBranch, branchName, inBranch, client, caregiver,
+    signedIn, signIn, signOut, me, setMe, invite, setInvite, agency, users, lists, branch, setBranch, branchName, inBranch, client, caregiver,
     clients, caregivers, setCaregivers, cgReqs, setCgReqs, timeOff, setTimeOff, carePlans: seed.carePlans,
     visits, setVisits, incidents, setIncidents, offline, setOffline, audit, log, cgNote, inbox, setInbox, toasts, toast,
   }

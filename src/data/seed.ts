@@ -103,6 +103,8 @@ const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct
 export const stampFor = (dayOffset: number, time: string) => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return `${d.getDate()} ${MON[d.getMonth()]}, ${time}` }
 
 export const ME = { name: 'Maria Lopez', role: 'Caregiver' as Role, branch: 'north', email: 'maria@royalityhomecare.com', phone: '(217) 555-0203', initials: 'ML', caregiverId: 'g3' }
+/** New caregiver for the joining demo: HR added her as an applicant and sent an invite. */
+export const NEWCOMER = { name: 'Amina Yusuf', role: 'Caregiver' as Role, branch: 'north', email: 'amina.yusuf@example.com', phone: '(217) 555-0212', initials: 'AY', caregiverId: 'g12' }
 
 export const ROLES: { role: Role; does: string }[] = [
   { role: 'Care Coordinator', does: 'Handles referrals, client set-up, care plan drafts, schedules, finding cover and family requests.' },
@@ -182,8 +184,8 @@ export const caregivers: Caregiver[] = [
     { status: 'Terminated', dob: '1968-05-14', address: '90 Hill Rd, Springfield, IL 62702', start: addDays(-500), end: addDays(-40), hours: 'Part-time', emergency: { name: 'Mary Walsh', relationship: 'Wife', phone: '(217) 555-0908' },
       history: [HN(-40, 'Lena Ortiz', 'Employment ended: moved out of the area. Last day worked.')] }),
   CG({ id: 'g12', name: 'Amina Yusuf', branch: 'north', type: 'Certified aide', skills: ['Personal care', 'Homemaking'], days: [1, 2, 3, 4, 5], from: '07:00', to: '15:00', maxHours: 40, phone: '(217) 555-0212' },
-    { status: 'Applicant', start: undefined, dob: '1996-08-21', address: '18 Grove St, Springfield, IL 62704', emergency: { name: 'Hassan Yusuf', relationship: 'Brother', phone: '(217) 555-0912' },
-      history: [HN(-6, 'Lena Ortiz', 'Added as an applicant after interview.')] }),
+    { status: 'Applicant', start: undefined, email: 'amina.yusuf@example.com', dob: '1996-08-21', address: '18 Grove St, Springfield, IL 62704', emergency: { name: 'Hassan Yusuf', relationship: 'Brother', phone: '(217) 555-0912' },
+      history: [HN(-6, 'Lena Ortiz', 'Added as an applicant after interview. Invite sent so she can set up her account and send her documents.')] }),
   CG({ id: 'g13', name: 'Tom Becker', branch: 'south', type: 'Companion', skills: ['Companionship'], days: [2, 4, 6], from: '10:00', to: '16:00', maxHours: 20, phone: '(217) 555-0213' },
     { status: 'Applicant', start: undefined, hours: 'Part-time', dob: '1972-01-30', address: '41 Station Rd, Springfield, IL 62703', emergency: { name: 'Eva Becker', relationship: 'Wife', phone: '(217) 555-0913' },
       history: [HN(-2, 'Lena Ortiz', 'Added as an applicant after interview.')] }),
@@ -290,4 +292,10 @@ export const inbox: Inbox[] = [
   { id: 'n1', title: 'Visit sent back to fix: Harold Jenkins', body: 'Check-out time looks wrong', at: 'Yesterday', read: false, link: '/visits?tab=returned', tone: 'danger' },
   { id: 'n2', title: 'Visit not sent yet: Harold Jenkins', body: 'Yesterday 15:00–16:00 — finish and send it', at: 'Today', read: false, link: '/visits?tab=send', tone: 'warning' },
   { id: 'n3', title: 'Update on your report INC-207', body: 'Pharmacy confirmed the delivery was missed', at: 'Yesterday', read: true, link: '/incidents/INC-207', tone: 'info' },
+]
+
+/** Alerts for the new caregiver (Amina) while she is joining. */
+export const newcomerInbox: Inbox[] = [
+  { id: 'a1', title: 'HR asked you to book your TB test', body: 'Send the result here when you have it', at: '5 days ago', read: false, link: '/', tone: 'warning' },
+  { id: 'a2', title: 'Your background check result is with HR', body: 'HR will check it', at: 'Yesterday', read: true, link: '/', tone: 'info' },
 ]

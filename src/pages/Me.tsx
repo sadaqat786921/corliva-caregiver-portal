@@ -24,7 +24,7 @@ export default function Me() {
       <PageHead title="My details" crumb="My details" sub={`Your documents, working hours and contact details. ${hr ? `${hr.name} (HR) keeps these — call ${hr.phone} to change anything.` : ''}`} />
       <div className="card card-pad row wrap" style={{ gap: 14 }}>
         <Avatar name={g.name} size="lg" />
-        <div className="grow"><div className="t-h3">{g.name}</div><div className="t-small t-muted">{g.type} · {s.branchName(g.branch)} · started {long(g.start)}</div><div className="t-small">Trained for: {g.skills.join(', ')}</div></div>
+        <div className="grow"><div className="t-h3">{g.name}</div><div className="t-small t-muted">{g.type} · {s.branchName(g.branch)} · {g.status === 'Applicant' ? 'joining — not started yet' : `started ${long(g.start)}`}</div><div className="t-small">Trained for: {g.skills.join(', ')}</div></div>
         <Chip tone={readyTone(r.state)}>{r.state}</Chip>
       </div>
 
@@ -87,7 +87,7 @@ export default function Me() {
 }
 
 /** Send a document to HR. Same rule as the HR portal: it stays "Waiting for check" until HR checks it. The old file is kept. */
-function SendDocument({ def, rec, onClose }: { def: Requirement; rec?: CgRequirement; onClose: () => void }) {
+export function SendDocument({ def, rec, onClose }: { def: Requirement; rec?: CgRequirement; onClose: () => void }) {
   const s = useStore()
   const online = useOnline()
   const [file, setFile] = useState<File | null>(null)

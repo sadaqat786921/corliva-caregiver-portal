@@ -65,7 +65,7 @@ function build(): CgRequirement[] {
   set('g6', 'q-dl', { status: 'Not needed', reason: 'Doesn’t drive — takes the bus to visits.', file: undefined, expiry: undefined, history: [H(-500, 'Lena Ortiz', 'Marked not needed: doesn’t drive.')] })
   // Applicants
   out.push(ok('g12', 'q-id', -5, null), { ...miss('g12', 'q-bg'), status: 'Waiting for check', file: 'Background check result.pdf', uploadedBy: 'Lena Ortiz', uploaded: addDays(-1), expiry: addDays(1094), history: [H(-1, 'Lena Ortiz', 'Uploaded the result from the checking service.')] },
-    miss('g12', 'q-rtw'), miss('g12', 'q-cert'), miss('g12', 'q-fa'), miss('g12', 'q-tb', 'Asked Amina to book her TB test.'), miss('g12', 'q-dl'), miss('g12', 'q-tr'), miss('g12', 'q-sk'))
+    miss('g12', 'q-rtw'), miss('g12', 'q-cert'), miss('g12', 'q-fa'), miss('g12', 'q-tb', 'Please book your TB test and send the result.'), miss('g12', 'q-dl'), miss('g12', 'q-tr'), miss('g12', 'q-sk'))
   out.push({ ...miss('g13', 'q-id'), status: 'Waiting for check', file: 'Passport.jpg', uploadedBy: 'Tom Becker (email)', uploaded: addDays(0), history: [H(0, 'Lena Ortiz', 'Saved the passport photo Tom emailed.')] },
     miss('g13', 'q-bg'), miss('g13', 'q-rtw'), miss('g13', 'q-dl'), miss('g13', 'q-tr'))
   return out

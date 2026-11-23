@@ -29,6 +29,7 @@ From the BRD (VIS-01 to VIS-11, User Flow 3): a **phone-friendly web app** (no n
 Caregivers use this on a phone between visits; the client is non-technical and over 50. Use short, plain English: "Check in now", "Not done", "Send record", "Report a problem". No jargon.
 
 ## Rules that must keep working
+- **Joining (new caregiver)**: nobody signs up on their own. HR adds an applicant in the HR portal and an invite is emailed. The invite (`/invite`, `Auth.tsx → Invite`) shows their details → choose a password (8+ characters, a letter and a number, typed twice, tick the promise) → phone security code → account ready. An invite can be used once. Until HR presses **Start work**, the person only has **Getting started** (`GettingStarted.tsx`: documents to send, HR's answer on each, what happens next, HR's phone), **My details** and **Settings** — visits and incidents are not shown.
 - **Only her own work**: Maria sees only visits assigned to her, the clients on those visits, and incidents she reported.
 - **Visit states** (`src/data/care.ts → cgState`): Coming up → Checked in → Not sent yet → Sent → Approved, or Sent back to fix, or Cancelled. These are the same records the Care Supervisor approves (`approval`: To review / Sent back / Approved).
 - **Check-in** opens on the visit day from 60 minutes before the start. Check-in and check-out ask the browser for the location. If it is refused or not available she can still check in — it is saved as "Location not shared" so the Supervisor sees it. A location is **never made up**.
@@ -51,16 +52,19 @@ src/
   components/ui.tsx        Button, Field, Input, Select, Chip, Modal, Tabs, Toggle, AlertBanner, EmptyState, ...
   components/Shell.tsx     sidebar + bottom bar on phones + header (alerts, profile menu)
   components/CareActions.tsx  ReportIncident pop-up, useOnline (no-internet check)
-  pages/                   Today, Visits, VisitDetail, Incidents (+ IncidentDetail), Me, Settings, Auth
+  pages/                   Today, GettingStarted, Visits, VisitDetail, Incidents (+ IncidentDetail), Me, Settings, Auth
 ```
 
 ## Demo data
-Maria visits **Robert King** (Mon/Wed/Fri, Companionship) and **Harold Jenkins** (every day, Medication reminders). Demo story: today's two visits are waiting; yesterday's Harold visit is not sent yet; an earlier Harold visit was sent back by Michael Brooks (check-out 17:10 looks wrong); one Robert visit was checked in from the car park; one was cancelled by the family; her report INC-207 (empty pill box) has an action asked of her; her first-aid certificate runs out soon. Every change is saved in **sessionStorage**. **Reset demo data** is in the profile menu and in Settings.
+Maria visits **Robert King** (Mon/Wed/Fri, Companionship) and **Harold Jenkins** (every day, Medication reminders). Demo story: today's two visits are waiting; yesterday's Harold visit is not sent yet; an earlier Harold visit was sent back by Michael Brooks (check-out 17:10 looks wrong); one Robert visit was checked in from the car park; one was cancelled by the family; her report INC-207 (empty pill box) has an action asked of her; her first-aid certificate runs out soon. Amina Yusuf (new caregiver) has her photo ID checked, her background check waiting, and HR has asked for her TB test. Every change is saved in **sessionStorage**. **Reset demo data** is in the profile menu and in Settings.
 
 ## Demo sign-in
-Any email and any password → **Sign in** → security code **246810** → **Verify and sign in**. Opens **Today** (signed in as Maria Lopez, Caregiver).
+- **Working caregiver:** any email and any password → **Sign in** → security code **246810** → **Verify and sign in**. Opens **Today** (signed in as Maria Lopez).
+- **New caregiver:** on the sign-in screen press **Open my invite** → Set up my account → choose a password → code **246810** → **Send my documents**. Opens **Getting started** (signed in as Amina Yusuf, the applicant in the HR portal). After that, sign in again with `amina.yusuf@example.com`.
 
 ## Screens (full screens, never side panels)
+- **Invite** (`/invite`) — your details, password, phone check, done.
+- **Getting started** (`/`, new caregiver only) — welcome, documents (Send it / Send again, HR's request or reason), what happens next (5 steps), tips for good photos, HR's phone.
 - **Today** (`/`) — greeting, the visit she is on or her next visit with a big button, To finish (sent back / not sent yet), today's visits, next 7 days, her reports and anything asked of her. Warnings when she is not ready to work or on time off.
 - **My visits** (`/visits`) — Coming up / To finish / Done, grouped by day.
 - **Visit** (`/visits/:id`) — status banner, Your visit steps (1 Check in, 2 Tasks, 3 Notes, 4 Check out, Send record), care plan instructions, client (address, getting in, phone, language, likes, emergency contact), visit details (repeats, office phone), Report a problem, Correct times.

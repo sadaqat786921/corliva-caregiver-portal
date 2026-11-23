@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Home, CalendarDays, TriangleAlert, UserRound, SlidersHorizontal, LogOut, ChevronDown, Calendar, Bell, RotateCcw } from 'lucide-react'
+import { Home, ListChecks, CalendarDays, TriangleAlert, UserRound, SlidersHorizontal, LogOut, ChevronDown, Calendar, Bell, RotateCcw } from 'lucide-react'
 import { useStore, fmtDate, resetDemoData } from '../data/store'
 import { TODAY } from '../data/seed'
 import { cgState } from '../data/care'
+import { forCaregiver, shown } from '../data/hr'
 import { AlertBanner, ConfirmDialog, Toasts, useClickOutside } from './ui'
 
+const NEW_NAV = [
+  { to: '/', label: 'Getting started', icon: ListChecks, end: true, badge: 'start' },
+  { to: '/me', label: 'My details', icon: UserRound, badge: '' },
+]
 const NAV = [
   { to: '/', label: 'Today', icon: Home, end: true, badge: '' },
   { to: '/visits', label: 'My visits', icon: CalendarDays, badge: 'visits' },
@@ -18,9 +23,13 @@ export default function Shell() {
   const nav = useNavigate()
   const [confirmOut, setConfirmOut] = useState(false)
   const mine = s.visits.filter(v => v.caregiverId === s.me.caregiverId)
+  const g = s.caregiver(s.me.caregiverId)
+  const isNew = g?.status === 'Applicant'
+  const menu = isNew ? NEW_NAV : NAV
   const badges: Record<string, number> = {
     visits: mine.filter(v => ['Not sent yet', 'Sent back to fix'].includes(cgState(v))).length,
     me: 0,
+    start: g ? forCaregiver(g, s.cgReqs).filter(i => i.def.checkedBy !== 'Care Supervisor' && ['Missing', 'Rejected', 'Expired'].includes(shown(i.rec))).length : 0,
   }
   return (
     <div className="shell">
@@ -34,8 +43,8 @@ export default function Shell() {
           </span>
         </div>
         <nav>
-          <div className="nav-section">My work</div>
-          {NAV.map(it => (
+          <div className="nav-section">{isNew ? 'Joining' : 'My work'}</div>
+          {menu.map(it => (
             <NavLink key={it.to} to={it.to} end={it.end} className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
               <it.icon />{it.label}{it.badge && badges[it.badge] > 0 && <span className="nav-badge">{badges[it.badge]}</span>}
             </NavLink>))}
@@ -50,7 +59,7 @@ export default function Shell() {
         <Outlet />
       </main>
       <nav className="bottom-nav" aria-label="Main menu">
-        {NAV.map(it => (
+        {menu.map(it => (
           <NavLink key={it.to} to={it.to} end={it.end} className={({ isActive }) => `bn-item ${isActive ? 'active' : ''}`}>
             <span className="bn-icon"><it.icon size={20} />{it.badge && badges[it.badge] > 0 && <span className="bn-badge">{badges[it.badge]}</span>}</span>{it.label}
           </NavLink>))}
