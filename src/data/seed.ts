@@ -120,7 +120,7 @@ export const users: User[] = [
   { id: 'u3', name: 'Lena Ortiz', email: 'lena@royalityhomecare.com', role: 'HR Officer', branch: 'all', status: 'Active', phone: '(217) 555-0103' },
   { id: 'u8', name: 'Sara Kim', email: 'sara@royalityhomecare.com', role: 'Care Coordinator', branch: 'north', status: 'Active', phone: '(217) 555-0108' },
   { id: 'u4', name: 'Daniel Reed', email: 'daniel@royalityhomecare.com', role: 'Care Coordinator', branch: 'south', status: 'Active', phone: '(217) 555-0104' },
-  { id: 'u5', name: 'Nina Patel', email: 'nina@royalityhomecare.com', role: 'Finance Officer', branch: 'all', status: 'Active', phone: '(217) 555-0105' },
+  { id: 'u5', name: 'Omar Haddad', email: 'omar@royalityhomecare.com', role: 'Finance Officer', branch: 'all', status: 'Active', phone: '(217) 555-0105' },
 ]
 
 export const lists: Record<string, ListItem[]> = {

@@ -78,6 +78,7 @@ Maria visits **Robert King** (Mon/Wed/Fri, Companionship) and **Harold Jenkins**
 - **HR Officer** — `sadaqat786921/Corliva-hr-officer-portal` (checks the documents sent from here, readiness, time off).
 - **Director of Nursing** — `sadaqat786921/Corliva-don-portal`.
 - **Agency Admin** — `sadaqat786921/Corliva-agency-admin-portal`.
+- **Finance Officer** — own portal: `sadaqat786921/corliva-finance-officer-portal` (bills approved visits, records payments, money owed, timesheets and payroll exports; applies adjustments asked for after invoicing).
 
 ## Run
 ```
