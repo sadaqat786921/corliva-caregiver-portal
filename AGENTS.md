@@ -80,6 +80,7 @@ Maria visits **Robert King** (Mon/Wed/Fri, Companionship) and **Harold Jenkins**
 - **Agency Admin** — `sadaqat786921/Corliva-agency-admin-portal`.
 - **Finance Officer** — own portal: `sadaqat786921/corliva-finance-officer-portal` (bills approved visits, records payments, money owed, timesheets and payroll exports; applies adjustments asked for after invoicing).
 - **Client & Family** — own portal: `sadaqat786921/corliva-client-family-portal` (phone-friendly: visits, checked visit summaries, care plan in use, shared documents, updates, change requests to the coordinator).
+- **Super Admin (Platform Admin)** — own portal: `sadaqat786921/corliva-super-admin-portal` (CORLIVA's own team: adds agencies and their first Agency Admin, plans and subscriptions, features per agency, roles and permissions, connections, sign-in security, backups and platform audit history; support access to an agency is view only and the Agency Admin is told).
 
 ## Run
 ```
